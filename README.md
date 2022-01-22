@@ -17,8 +17,10 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 - **`comparison_with_kraken2.ipynb`**
     - calculated the precision, recall and F1 of Kraken2 taxonomic assignments  
 - **`ts_intersection_with_external_datasets.ipynb`**
-    - integrating data from the Human Microbiome Project (HMP)
+    - integrating data from various sources (see `external_dataset` for input files)
+    - the Human Microbiome Project (HMP)
     - the tumor microbiome dataset by Nejman et al. (2020)
     - our validation dataset 
     - the PATRIC database  
+
 
