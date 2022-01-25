@@ -14,8 +14,6 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
     - upset plots 
     - microbe & human cell-type network 
     - EBV-human cell type sankey plot
-- **`comparison_with_kraken2.ipynb`**
-    - calculated the precision, recall and F1 of Kraken2 taxonomic assignments  
 - **`ts_intersection_with_external_datasets.ipynb`**
     - integrating data from various sources (see `external_dataset` for input files)
     - the Human Microbiome Project (HMP)
@@ -24,6 +22,7 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
     - the PATRIC database  
 
 Below is the list of package requirements for analysis and visualization: 
+
     - scipy (v1.5.2)
     - pandas (v1.0.3)
     - numpy (v1.19.2)
