@@ -1,6 +1,7 @@
 # The hidden microbiome of human tissues and cell types
 #### The human tissue microbiome atlas reveals numerous species of microbes spanning three domains of life
 <img src="https://github.com/gitamahm/human_tissue_microbiome_atlas/blob/master/images/tissue_microbiome_atlas.png" width="100%" height="100%">
+<iframe src="https://github.com/gitamahm/human_tissue_microbiome_atlas/blob/master/images/f7_ann_host_microbe_network.html" width="100%" height="500px">
 
 In the accompanying manuscript, we created an atlas of the human tissue microbiome with cell type resolution, and in this repository, we provide our pipeline called SIMBA (written in Snakemake) for the identification of bacteria, viruses and fungi in human cellular transcriptomes. We used the raw fastqs from the [Tabula Sapiens](https://github.com/czbiohub/tabula-sapiens) single-cell transcriptomic dataset. Additionally, we have included several Jupyter notebooks used for further processing SIMBA's outputs and generating figures. Theses notebooks include:
 
