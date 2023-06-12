@@ -34,6 +34,8 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 	- This notebook is used to generate many of the plots found in the manuscript (e.g. chordmaps, upsetplots, networks, sankey) using already fully processed and QC'd SIMBA outputs. 
 - **`p13_ts_intersection_with_external_datasets.ipynb`**
 	- The purpose of this notebook is to compare the Tabula Sapiens Microbiome (TSM) dataset to the Human Microbiome Project (HMP), the tumor microbiome dataset by Nejman et al., and the EHTM dataset. Additionally, I obtain data from the PATRIC database on pathogenicity.
+
+
 Below is the list of some of the essential packages used for analysis and visualization: 
 
     - scipy (v1.5.2)
