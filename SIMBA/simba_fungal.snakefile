@@ -19,7 +19,8 @@ rule all:
 		partition="normal,quake,owners", 
 		mem="4000"
 	threads: 1
- 
+
+#this rule uses BLASTn against the microbeDB database
 rule nonBactMicoAgainstFungRefseq_blastn:
      input:REFDIR + '/micoAgainstRefseq_blastn/{sample}_nonBacterial.fasta'
      output:REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_deduplicated_secondBlast_result_blastn.tab'
@@ -28,6 +29,7 @@ rule nonBactMicoAgainstFungRefseq_blastn:
      benchmark:REFDIR + "/benchmarks/nonBactMicoAgainstFungRefseq_blastn/{sample}.benchmark.txt"
      shell:"""blastn -query {input} -db {config[fungalRefseqSlim_nuc]} -num_threads {threads} -outfmt '6 qseqid sseqid stitle bitscore pident evalue gapopen qstart qend sstart send length mismatch staxids' -evalue 1e-5 -max_target_seqs 1 -out {output}"""
 
+#this rule uses dedup_v5.py, an in-house script, to convert BLASTn output to formats used in subsequent rules. 
 rule streamline_micotoFungRefseq:
      input:REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_deduplicated_secondBlast_result_blastn.tab', REFDIR + "/polyFiltered/{sample}.fasta
      output:REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}.csv', REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_deduplicated.csv',REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_secondBlast.fasta'
@@ -37,8 +39,7 @@ rule streamline_micotoFungRefseq:
      benchmark:REFDIR + "/benchmarks/streamline_micotoFungRefseq/{sample}.benchmark.txt"
      script: SCRIPTSDIR + "/dedup_v5.py"
 
-
-#blastn of the refseq blastn results against the NT database
+#this rule uses BLASTn of the refseq blastn results against the NT database
 rule fungi_NT_blastn:
     input: r1 = REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_secondBlast.fasta'
     output: o1 = REFDIR + '/fungi_NT_blastn/{sample}.tab'
