@@ -27,7 +27,7 @@ rule all:
 	threads: 1
 
 
-#taking reads and blasting them against the micoDB (combination of microbeDB and mycoDB)
+#this rule uses BLASTn against the microbeDB (combination of bacterial and fungal composing the first-tier database)
 rule micoDB_blastn:
     input: r1 = REFDIR + "/polyFiltered/{sample}.fasta"
     output: o1 = REFDIR + '/micoDBBlastn/{sample}.tab'
@@ -37,7 +37,7 @@ rule micoDB_blastn:
     shell: """blastn -query {input.r1} -db {config[micoDB]}  -num_threads {threads} -outfmt '6 qseqid sseqid stitle bitscore pident evalue gapopen qstart qend sstart send length mismatch staxids' -evalue 1e-5 -max_target_seqs 1 -out {output.o1} """
 
 
-#making blastable reads ready for a second round of blast against the NT databases
+#making reads ready for a second round of BLAST against the NT databases using dedup_v5.py, an in-house script
 rule streamline_micoDB:
     input:REFDIR + '/micoDBBlastn/{sample}.tab', REFDIR + "/polyFiltered/{sample}.fasta
     output:REFDIR + '/micoDBBlastn/{sample}.csv',REFDIR + '/micoDBBlastn/{sample}_deduplicated.csv',REFDIR + '/micoDBBlastn/{sample}_secondBlast.fasta'
@@ -47,7 +47,7 @@ rule streamline_micoDB:
     benchmark:REFDIR + "/benchmarks/streamline_micoDB/{sample}.benchmark.txt"
     script: SCRIPTSDIR + "/dedup_v5.py"
 
-#blasting reads that mapped to microbeDB against total NT database from NCBI
+#using BLASTn for reads that mapped to microbeDB against the bacterial RefSeq database from NCBI
 rule blastn_micotoBactRefseq:
      input: REFDIR +'/micoDBBlastn/{sample}_secondBlast.fasta'
      output:REFDIR + '/micoAgainstRefseq_blastn/{sample}_deduplicated_secondBlast_result_blastn.tab'
@@ -56,7 +56,8 @@ rule blastn_micotoBactRefseq:
      threads:8
      benchmark:REFDIR + "/benchmarks/blastn_micotoBactRefseq/{sample}.benchmark.txt"
      shell:"""blastn -query {input} -db {config[bactRefseqSlim_nuc]} -num_threads {threads} -outfmt '6 qseqid sseqid stitle bitscore pident evalue gapopen qstart qend sstart send length mismatch staxids' -evalue 1e-5 -max_target_seqs 1 -out {output}"""
-  
+
+#formatting BLAST output from previous rule using dedup_v5_noBact.py 
 rule streamline_blastn_micotoBactRefseq:
      input:REFDIR + '/micoAgainstRefseq_blastn/{sample}_deduplicated_secondBlast_result_blastn.tab', REFDIR + '/micoDBBlastn/{sample}_secondBlast.fasta'
      output:REFDIR + '/micoAgainstRefseq_blastn/{sample}.csv', REFDIR + '/micoAgainstRefseq_blastn/{sample}_deduplicated_filtered.csv',REFDIR + '/micoAgainstRefseq_blastn/{sample}_secondBlast_filtered.fasta',REFDIR + '/micoAgainstRefseq_blastn/{sample}_nonBacterial.fasta'
@@ -66,8 +67,7 @@ rule streamline_blastn_micotoBactRefseq:
      benchmark:REFDIR + "/benchmarks/streamline_blastn_micotoBactRefseq/{sample}.benchmark.txt"
      script: SCRIPTSDIR + "/dedup_v5_noBact.py"
 
-
-#blastn of the refseq blastn results against the NT database
+#Using BLASTn againt the nt database (from NCBI) for reads that produced hits against the bacterial RefSeq database
 rule mico_NT_blastn:
     input: r1 = REFDIR + '/micoAgainstRefseq_blastn/{sample}_secondBlast_filtered.fasta'
     output: o1 = REFDIR + '/micoNT_blastn/{sample}.tab'
@@ -77,7 +77,7 @@ rule mico_NT_blastn:
     shell: """blastn -query {input.r1} -db {config[ntDatabaseDir]}  -num_threads {threads} -outfmt '6 qseqid sseqid stitle bitscore pident evalue gapopen qstart qend sstart send length mismatch staxids' -evalue 1e-5 -max_target_seqs 1 -out {output.o1}"""
 
 
-#no second blast is required here, just want the csv of all blast results as opposed to individual .tab file per sample
+#no further BLASTn step is required here, just want the csv of all blast results as opposed to individual .tab file per sample
 rule streamline_mico_NT_blastn:
     input: REFDIR + '/micoNT_blastn/{sample}.tab', REFDIR + "/polyFiltered/{sample}.fasta
     output:REFDIR + '/micoNT_blastn/{sample}.csv',REFDIR + '/micoNT_blastn/{sample}_deduplicated.csv',REFDIR + '/micoNT_blastn/{sample}_secondBlast.fasta'
