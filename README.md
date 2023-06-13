@@ -36,4 +36,4 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 	- The purpose of this notebook is to compare the Tabula Sapiens Microbiome (TSM) dataset to the Human Microbiome Project (HMP), the tumor microbiome dataset by Nejman et al., and the EHTM dataset. Additionally, I obtain data from the PATRIC database on pathogenicity.
 
 
-For a full list of libraries and various dependencies used in these notebooks, please see mainEnv2.yaml file, which can be used to create the right environment. See https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html for more information. 
+For a full list of libraries and various dependencies used in these notebooks, please see mainEnv2.yaml file, which can be used to create the right environment. See <https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html> for more information. 
