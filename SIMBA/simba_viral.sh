@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=1
 # send mail to this address
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=gitam@stanford.edu
+#SBATCH --mail-user=gita@stanford.edu
 #SBATCH -p quake
 
 MY_HOME=/oak/stanford/groups/quake/gita/raw
@@ -18,13 +18,11 @@ NJOBS=500
 WAIT=120
 RESTART=1
 LOCALCORES=1
-#I'm using the new version of blast v2.10 
+
 if [ "$1" = "unlock" ]; then
     snakemake all --snakefile $SNAKEFILE --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --unlock
 elif [ "$1" = 'dry' ]; then
     snakemake all --snakefile $SNAKEFILE --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete -n -p --cluster "sbatch --ntasks=1 --job-name={params.name} --cpus-per-task={threads} --partition={params.partition}  --mem={params.mem} -o $SLURM/$DATE.{params.name}.%j.log" 
-elif [ "$1" = 'forceall' ]; then
-    snakemake all --snakefile $SNAKEFILE --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete -F  --cluster "sbatch --ntasks=1 --job-name={params.name} --cpus-per-task={threads} --partition={params.partition}  --mem={params.mem} -o $SLURM/$DATE.{params.name}.%j.log" 
 elif [ "$1" = 'local' ]; then
     snakemake all --snakefile $SNAKEFILE --local-cores $LOCALCORES --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --restart-times $RESTART
 elif [ "$1" = 'dag' ]; then
