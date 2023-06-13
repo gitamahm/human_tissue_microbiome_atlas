@@ -8,7 +8,6 @@ STARREFDIR="/oak/stanford/groups/quake/gita/raw/database/STARgenome/human_releas
 STAR = "STAR"
 CHRNAME = STARREFDIR + "chrName.txt"
 GTFFILE = "/oak/stanford/groups/quake/gita/raw/database/STARgenome/human_release34/hg38.ERCC.gtf"
-#this format is 10X 
 SAMPLE, = glob_wildcards(READSDIR + "/{sample}_R1_001.fastq.gz")
 
 rule all:
@@ -35,6 +34,7 @@ rule all:
 		mem="4000"
 	threads: 1
 
+#this rule is using umi_tools whitelist command. Please refer to https://umi-tools.readthedocs.io/en/latest/QUICK_START.html
 rule umi_whitelist:
     input: r1= READSDIR + "/{sample}_R1_001.fastq.gz"
     output: o1 = REFDIR + "/umiFiltered/{sample}_whitelist.txt"
@@ -43,7 +43,7 @@ rule umi_whitelist:
     benchmark:REFDIR + "/benchmarks/umiFiltered/{sample}.benchmark.txt"
     shell:"umi_tools whitelist --stdin {input.r1} --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNNNN --log2stderr > {output.o1}"
 
-#barcode pattern has 16 bps for barcode and 12 bps for UMI
+#this rule uses umi_tools extract command. barcode pattern has 16 bps for barcode and 12 bps for UMI. Please refer to https://umi-tools.readthedocs.io/en/latest/QUICK_START.html
 rule umi_filter:
     input: r1= READSDIR + "/{sample}_R1_001.fastq.gz", r2= READSDIR + "/{sample}_R2_001.fastq.gz",r3 = REFDIR + "/umiFiltered/{sample}_whitelist.txt"
     output: o1 = REFDIR + "/umiFiltered/{sample}_extracted_R1.fastq.gz",  o2 = REFDIR + "/umiFiltered/{sample}_extracted_R2.fastq.gz"
@@ -52,6 +52,7 @@ rule umi_filter:
     benchmark:REFDIR + "/benchmarks/umiFiltered/{sample}.benchmark.txt"
     shell:"umi_tools extract --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNNNN --stdin {input.r1} --stdout {output.o1} --read2-in {input.r2} --read2-out={output.o2} --whitelist={input.r3} --error-correct-cell"
 
+#this rule uses the STAR aligner to identify reads that DO NOT map to the human genome or ERCCs 
 rule align:
      #this line is different from smartseq version of the pipeline
      input: CHRNAME, R1=REFDIR + "/umiFiltered/{sample}_extracted_R2.fastq.gz",starref=STARREFDIR,gtf=GTFFILE
@@ -72,6 +73,7 @@ rule align:
                --outMultimapperOrder Random 
        """
 
+#this rule will use Perl to convert a STAR output to a fasta file
 rule fasta:
     input: r1= REFDIR + "/mapped/{sample}.Unmapped.out.mate1"
     output: o1 = REFDIR + "/humanFiltered/{sample}.fasta"
@@ -80,6 +82,7 @@ rule fasta:
     benchmark:REFDIR + "/benchmarks/fasta/{sample}.benchmark.txt"
     shell:"perl -ne 'y/@/>/;print($_.<>)&&<>&&<>' {input.r1} > {output.o1}"
 
+#this rule uses poly.py (an in-house) python script to eliminate low-complexity sequences
 rule poly:
     input:REFDIR + "/humanFiltered/{sample}.fasta"
     output:REFDIR + "/polyFiltered/{sample}.fasta"
@@ -89,6 +92,7 @@ rule poly:
     benchmark:REFDIR + "/benchmarks/polyFiltered/{sample}.benchmark.txt"
     script:SCRIPTSDIR + "/poly.py"
 
+#this rule uses BLASTn against the viral Refseq database
 rule virBlastn_refseq:
     input: r1 = REFDIR + "/polyFiltered/{sample}.fasta"
     output: o2 = REFDIR + '/virRefseqBlastn/{sample}.tab'
@@ -97,6 +101,7 @@ rule virBlastn_refseq:
     benchmark:REFDIR + "/benchmarks/virRefseq_blastn/{sample}.benchmark.txt"
     shell: """blastn -query {input.r1} -db {config[nucVirTotal]}  -num_threads {threads} -outfmt '6 qseqid sseqid stitle bitscore pident evalue gapopen qstart qend sstart send length mismatch staxids' -evalue 1e-5 -max_target_seqs 1 -max_hsps 1 -out {output.o2}"""
 
+#this rule is uses dedup_v5.py (in-house) python script to convert output of BLASTn into csv and fasta files.
 rule streamline_virRefseq_blastn:
     input:REFDIR + "/virRefseqBlastn/{sample}.tab", REFDIR + "/polyFiltered/{sample}.fasta" 
     output:REFDIR + '/virRefseqBlastn/{sample}.csv',REFDIR + '/virRefseqBlastn/{sample}_deduplicated_filtered.csv',REFDIR + '/virRefseqBlastn/{sample}_secondBlast_filtered.fasta'
@@ -106,6 +111,7 @@ rule streamline_virRefseq_blastn:
     benchmark:REFDIR + "/benchmarks/streamline_virRefseq_blastn/{sample}.benchmark.txt"
     script:SCRIPTSDIR + "/dedup_v5.py"
 
+#this rule uses BLASTn against the nt database
 rule virBlastn_NT:
     input: r1 = REFDIR + '/virRefseqBlastn/{sample}_secondBlast_filtered.fasta'
     output: o1 = REFDIR + '/virNTblastn/{sample}.tab'
