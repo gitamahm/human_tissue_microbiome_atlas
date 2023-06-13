@@ -20,7 +20,7 @@ rule all:
 		mem="4000"
 	threads: 1
 
-#this rule uses BLASTn against the microbeDB database
+#this rule uses BLASTn against the fungal RefSeq database from NCBI
 rule nonBactMicoAgainstFungRefseq_blastn:
      input:REFDIR + '/micoAgainstRefseq_blastn/{sample}_nonBacterial.fasta'
      output:REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_deduplicated_secondBlast_result_blastn.tab'
@@ -39,7 +39,7 @@ rule streamline_micotoFungRefseq:
      benchmark:REFDIR + "/benchmarks/streamline_micotoFungRefseq/{sample}.benchmark.txt"
      script: SCRIPTSDIR + "/dedup_v5.py"
 
-#this rule uses BLASTn of the refseq blastn results against the NT database
+#this rule uses BLASTn of the refseq blastn results against the nt database (available through NCBI)
 rule fungi_NT_blastn:
     input: r1 = REFDIR + '/nonBactMicoAgainstFungRefseq_blastn/{sample}_secondBlast.fasta'
     output: o1 = REFDIR + '/fungi_NT_blastn/{sample}.tab'
