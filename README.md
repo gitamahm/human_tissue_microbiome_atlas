@@ -10,7 +10,7 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 	- the purpose of this notebook is to create truth datasets for testing the precision and recall of SIMBA and Kraken2
 - **`p03_testing_truth_datasets.ipynb`**
 	- In this notebook we estimate the precision and recall of SIMBA (as well as Kraken2) for detecting bacteria, fungi and viruses using various truth datasets created in the previous notebook. 
-- **`p04_experimental_negative_controls.ipynb'**
+- **`p04_experimental_negative_controls.ipynb`**
 	- In this notebook, we will assemble a list of contaminats from ~200 negative control samples from instruments and reagent used during tissue transport, digestion, and sequencing. These are from 5 10X lanes devoted to deeply sequencing negative controls
 - **`p05_post_SIMBA_processing_alldonors_and_EHTM.ipynb`**
 	- In this notebook, I perform additional processing of the SIMBA outputs for 10X and EHTM datasets. Some of the key steps include 
@@ -36,4 +36,4 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 	- The purpose of this notebook is to compare the Tabula Sapiens Microbiome (TSM) dataset to the Human Microbiome Project (HMP), the tumor microbiome dataset by Nejman et al., and the EHTM dataset. Additionally, I obtain data from the PATRIC database on pathogenicity.
 
 
-For a full list of libraries and various dependencies used in these notebooks, please see mainEnv2.yaml file, which can be used to create the right environment. See [conda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more information. 
+For a full list of libraries and various dependencies used in these notebooks, please see **`mainEnv2.yaml`** file, which can be used to create the same environment. See [conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more information. 
