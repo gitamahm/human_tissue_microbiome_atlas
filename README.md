@@ -36,20 +36,4 @@ In the accompanying manuscript, we created an atlas of the human tissue microbio
 	- The purpose of this notebook is to compare the Tabula Sapiens Microbiome (TSM) dataset to the Human Microbiome Project (HMP), the tumor microbiome dataset by Nejman et al., and the EHTM dataset. Additionally, I obtain data from the PATRIC database on pathogenicity.
 
 
-Below is the list of some of the essential packages used for analysis and visualization: 
-
-    - scipy (v1.5.2)
-    - pandas (v1.0.3)
-    - numpy (v1.19.2)
-    - matplotlib (v3.3.0)
-    - seaborn (v0.11.1)
-    - scanpy (v1.5.1)
-    - anndata (v0.7.3)
-    - phylopandas (v0.8.0)
-    - holoviews (v1.14.0)
-    - bokeh (v2.2.3)
-    - venn (v0.1.3)
-    - plotly (v4.14.1)
-    - pyvis (v0.1.8.2)
-    - networkx (v2.5)
-    - upsetplot (v0.4.1) 
+For a full list of libraries and various dependencies used in these notebooks, please see mainEnv2.yaml file, which can be used to create the right environment. See https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html for more information. 
