@@ -1,8 +1,7 @@
 The shell scripts execute the viral, bacterial and fungal branches of the pipeline. We recommend the following steps: Running the **`simba_viral.sh`** followed by **`simba_mico.sh`** and then the **`simba_fungal.sh`**. There are several parameters that are user-specific, which I will describe below in brackets. We have left examples from our own runs in these shell scripts.  
 Note that in addition to Snakemake and Conda installations, there is a need for a **`config.yaml`** file that contains parameters used by Snakemake. 
 
-For more details on SLURM commands please see documentations such as [this](https://login.scg.stanford.edu/tutorials/job_scripts/).
-For more details on Snakemake commands please refer to the [Snakemake tutorials](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). 
+For more information on SLURM commands please see documentations such as [this](https://login.scg.stanford.edu/tutorials/job_scripts/).
 
 ```
 #SBATCH --job-name=[provide a job title]
@@ -26,7 +25,7 @@ LOCALCORES=[number of cores to use for local jobs]
 ```
 
 The following commands will let Snakemake either "unlock" a directory, perform a "dry" run, run "local" as opposed to using compute clusters, build a "dag" file, "delete" or run "all". 
-
+For more information on Snakemake commands please refer to the [Snakemake tutorials](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). 
 ```
 if [ "$1" = "unlock" ]; then
     snakemake all --snakefile $SNAKEFILE --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --unlock
