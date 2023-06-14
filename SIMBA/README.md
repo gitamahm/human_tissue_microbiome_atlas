@@ -45,7 +45,7 @@ To run the **`simba_viral.sh`** script, for example, use the following to get a 
 ```
 bash simba_viral.sh dry
 ```
-If there are no errors, proceed with the following which will execute the viral branch of the pipeline. 
+If there are no errors, proceed with the following which will execute the viral branch of the pipeline. Note that there are several instances such as **`--partition={params.partition}`** where the parameter is being set within the accompanying snakefile, in this case **`simba_viral.snakefile`. Each rule within each of these snakefiles contains our set parameters for partition, number of threads (or cpus), job name, duration, and memory. 
 ```
 sbatch simba_viral.sh 
 ```
