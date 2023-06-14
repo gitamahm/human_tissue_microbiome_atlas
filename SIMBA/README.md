@@ -53,4 +53,4 @@ If the directory is locked, simply run:
 ```
 bash simba_viral.sh unlock
 ```
-The various rules of snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared here.  
+The various rules of snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared in this folder. Additionally, the rules rely on  [**UMI-tools** (v1.0.1)](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html) to filter and extract cell barcodes and UMIs from raw fastqs using the extract and whitelist commands. [**STAR** (v2.7)](https://github.com/alexdobin/STAR) is also needed to align resulting sequences against a reference library containing the human genome (GRCh38.p13) and ERCCs. Finally, [**BLAST** (v2.10)](https://www.ncbi.nlm.nih.gov/books/NBK569861/) should also be installed. 
