@@ -41,3 +41,15 @@ else
     snakemake all --snakefile $SNAKEFILE --local-cores $LOCALCORES --use-conda --configfile $CONFIGFILE --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --restart-times $RESTART --cluster "sbatch --ntasks=1 --job-name={params.name} --time={params.time} --cpus-per-task={threads} --partition={params.partition}  --mem={params.mem} -o $SLURM/$DATE.{params.name}.%j.log" 
 fi
 ```
+To run the **`simba_viral.sh`** script, for example, use the following to get a dry run. 
+```
+bash simba_viral.sh dry
+```
+If there are no errors, proceed with the following which will execute the viral branch of the pipeline. 
+```
+sbatch simba_viral.sh 
+```
+If the directory is locked, simply run:
+```
+bash simba_viral.sh unlock
+```
