@@ -1,5 +1,5 @@
 The shell scripts execute the viral, bacterial and fungal branches of the pipeline. We recommend the following steps: Running the **`simba_viral.sh`** followed by **`simba_mico.sh`** and then the **`simba_fungal.sh`**. There are several parameters that are user-specific, which I will describe below in brackets. We have left examples from our own runs in these shell scripts.  
-Note that in addition to Snakemake and Conda installations, there is a need for a **`config.yaml`** file that contains parameters used by Snakemake. 
+Note that in addition to Snakemake and Conda installations, there is a need for a **`config.yaml`** file that contains paths to databases used by Snakemake. This file should be modified to contain user-specific file paths.
 
 For more information please see tutorials on [SLURM commands](https://login.scg.stanford.edu/tutorials/job_scripts/).
 
