@@ -1,8 +1,9 @@
 The shell scripts execute the viral, bacterial and fungal branches of the pipeline. We recommend the following steps: Running the **`simba_viral.sh`** followed by **`simba_mico.sh`** and then the **`simba_fungal.sh`**. There are several parameters that are user-specific, which I will describe below in brackets. We have left examples from our own runs in these shell scripts to help with formatting your own.  
-Note that in addition to Snakemake and Conda installations, there is a need for a config.yaml file that contains parameters used by Snakemake. 
+Note that in addition to Snakemake and Conda installations, there is a need for a **`config.yaml`** file that contains parameters used by Snakemake. 
 
-For more details on SLURM commands please see documentations such as [this](https://login.scg.stanford.edu/tutorials/job_scripts/): 
-For more details on Snakemake commands please refer to the Snakemake tutorials: https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html 
+For more details on SLURM commands please see documentations such as [this](https://login.scg.stanford.edu/tutorials/job_scripts/).
+For more details on Snakemake commands please refer to the [Snakemake tutorials](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). 
+
 ```
 #SBATCH --job-name=[provide a job title]
 #SBATCH --time=[provide duration for the job]
