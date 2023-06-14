@@ -3,7 +3,7 @@ Note that in addition to Snakemake and Conda installations, there is a need for 
 
 For more details on SLURM commands please see documentations such as this: https://login.scg.stanford.edu/tutorials/job_scripts/ 
 For more details on Snakemake commands please refer to the Snakemake tutorials: https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html 
-
+```
 #SBATCH --job-name=[provide a job title]
 #SBATCH --time=[provide duration for the job]
 #SBATCH --ntasks=[number of tasks, specifies how many instances of your command are executed]
@@ -22,9 +22,11 @@ NJOBS=[max number of jobs to send out]
 WAIT=[how many seconds to wait]
 RESTART=[how many times to retry if a job fails]
 LOCALCORES=[number of cores to use for local jobs]
+```
 
 The following commands will let Snakemake either "unlock" a directory, perform a "dry" run, run "local" as opposed to using compute clusters, build a "dag" file, "delete" or run "all". 
 
+```
 if [ "$1" = "unlock" ]; then
     snakemake all --snakefile $SNAKEFILE --use-conda --configfile $CONFIGFILE  --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --unlock
 elif [ "$1" = 'dry' ]; then
@@ -38,3 +40,4 @@ elif [ "$1" = 'delete' ]; then
 else	
     snakemake all --snakefile $SNAKEFILE --local-cores $LOCALCORES --use-conda --configfile $CONFIGFILE --keep-target-files -j $NJOBS -w $WAIT -k --rerun-incomplete --restart-times $RESTART --cluster "sbatch --ntasks=1 --job-name={params.name} --time={params.time} --cpus-per-task={threads} --partition={params.partition}  --mem={params.mem} -o $SLURM/$DATE.{params.name}.%j.log" 
 fi
+```
