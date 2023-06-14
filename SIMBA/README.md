@@ -53,3 +53,4 @@ If the directory is locked, simply run:
 ```
 bash simba_viral.sh unlock
 ```
+The various rules of snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared here.  
