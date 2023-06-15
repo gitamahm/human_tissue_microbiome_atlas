@@ -8,9 +8,9 @@
 #SBATCH --mail-user=gita@stanford.edu
 #SBATCH -p quake
 
-SNAKEFILE=/SIMBA/simba_viral.snakefile
-CONFIGFILE=/SIMBA/config.yaml
-SLURM=/SIMBA/slurm/
+SNAKEFILE=~/SIMBA/simba_viral.snakefile
+CONFIGFILE=~/SIMBA/config.yaml
+SLURM=~/SIMBA/slurm/
 DATE=$(date "+%Y_%m_%d_%H_%M_%S")
 NJOBS=500
 WAIT=120
