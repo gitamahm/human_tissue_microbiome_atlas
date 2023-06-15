@@ -1,8 +1,8 @@
-The shell scripts execute the viral, bacterial and fungal branches of the pipeline. We recommend the following steps: Running the **`simba_viral.sh`** followed by **`simba_mico.sh`** and then the **`simba_fungal.sh`**. There are several parameters that are user-specific, which I will describe below in brackets. We have left examples from our own runs in these shell scripts.  
-Note that in addition to Snakemake and Conda installations, there is a need for a **`config.yaml`** file that contains paths to databases used by Snakemake. This file should be modified to contain user-specific file paths.
+This directory will contain all the necessary files to execute the shell scripts that will enable Snakemake to parallelize various jobs on compute clusters based on the provided Snakefiles. The **`config.yaml`** included in this SIMBA directory is set up assuming that SIMBA directory is the working directory within your home directory, containing all the necessary files including databases, raw fastq reads, in-house python scripts, and other files. Thus, if you need to change the file structure in any way, you can modify the paths in **`config.yaml`** file which snakefiles (those with **.snakefile** extensions) rely on. 
+
+The shell scripts (those with **.sh** extensions) execute the viral, bacterial and fungal branches of the pipeline. We recommend the following steps: Running the **`simba_viral.sh`** followed by **`simba_mico.sh`** and then the **`simba_fungal.sh`**. There are several parameters that are user-specific, which I will describe below in brackets. We have left examples from our own runs in these shell scripts.  Note that you need working Snakemake (5.10.0) and Conda (4.14.0) installations. 
 
 For more information please see tutorials on [SLURM commands](https://login.scg.stanford.edu/tutorials/job_scripts/).
-
 ```
 #SBATCH --job-name=[provide a job title]
 #SBATCH --time=[provide duration for the job]
@@ -11,17 +11,6 @@ For more information please see tutorials on [SLURM commands](https://login.scg.
 #SBATCH --mail-type=[types of job statuses to have SLURM notify you about]
 #SBATCH --mail-user=[job submitter email address where job statuses can be sent to]
 #SBATCH -p [compute partition to request resources from]
-
-MY_HOME=[local file path for hosting the config.yaml file]
-MY_HOME2=[local file path for hosting the snakefiles]
-SNAKEFILE=$MY_HOME2/simba_viral.snakefile
-CONFIGFILE=$MY_HOME/config.yaml
-SLURM=$MY_HOME2/slurm/
-DATE=[date format]
-NJOBS=[max number of jobs to send out]
-WAIT=[how many seconds to wait]
-RESTART=[how many times to retry if a job fails]
-LOCALCORES=[number of cores to use for local jobs]
 ```
 
 The following commands will let Snakemake either "unlock" a directory, perform a "dry" run, run "local" as opposed to using compute clusters, build a "dag" file, "delete" or run "all". 
@@ -49,19 +38,17 @@ If there are no errors, proceed with the following which will execute the viral 
 ```
 sbatch simba_viral.sh 
 ```
-If the directory is locked, simply run:
+If the directory is locked, run:
 ```
 bash simba_viral.sh unlock
 ```
 The various rules of Snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared in this folder. Additionally, the rules rely on  [**UMI-tools** (v1.0.1)](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html) to filter and extract cell barcodes and UMIs from raw fastqs using the extract and whitelist commands. [**STAR** (v2.7)](https://github.com/alexdobin/STAR) is also needed to align resulting sequences against a reference library containing the human genome (GRCh38.p13) and ERCCs. Finally, [**BLAST** (v2.10)](https://www.ncbi.nlm.nih.gov/books/NBK569861/) should also be installed. 
 
-Additionally the rules will use the config file to find paths to various databases to BLASTn sequences against. Those databases are the following:
+Finally, the rules will use the config file to find paths to various databases to BLASTn sequences against. Those databases are the following:
 - **`nucVirTot`** (the viral RefSeq database used in this study)
 - **`micoDB`** (what is referred to as microbeDB in this study and contains fungal and bacterial representatives). 
 - **`bactRefseqSlim_nuc`** (the reduced version of the bacterial RefSeq database used in this study as an intermediate database)
 - **`fungalRefseqSlim_nuc`** (the reduced version of the fungal RefSeq database used in this study as an intermediate database)
 - **`ntDatabaseDir`** (the nt database used in this study)
-
-Because these databases are too large to upload to Github, we are hosting them on [google drive](https://drive.google.com/drive/u/1/folders/1s4lG2Yq7qXH-iJhCHkvh5BvoADvCeubn). After downloading them, make sure to change file paths in the **`config.yaml`**. Additionally, keep in mind that the path should have an additional term. For instance, if you want to reference the nucVirTot database and PATH is where the directory is located, your actual path needs to be PATH/viralRefseqNuc. The second term (viralRefseqNuc) is the name of the files in each database without any of the extensions (e.g. ntf, nin, nhr). This is a feature of BLAST and how it identifies databases, which can be confusing at first. 
-
-In addition to these databases, 
+- **`human_release34`** (needed for STAR alignments to the human genome and ERCCs)
+Because these databases are too large to upload to Github, we are hosting them on [google drive](https://drive.google.com/drive/u/1/folders/1s4lG2Yq7qXH-iJhCHkvh5BvoADvCeubn). After downloading them, move them to the SIMBA directory. In addition to these databases, the unprocessed fastq reads from 10X sequencing (format: {sample}_R1_001.fastq.gz"), placed in the **`raw_reads`** directory. 
