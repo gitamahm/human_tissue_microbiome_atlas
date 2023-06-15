@@ -1,17 +1,14 @@
+REFDIR: ~/SIMBA/
+SCRIPTSDIR: ~/SIMBA/pyScripts/
+READSDIR: ~/SIMBA/raw_reads
+mainEnv_yaml: ~/SIMBA/mainEnv.yaml
+ntDatabaseDir: ~/SIMBA/databases/ntDatabaseDir/nt
+nucVirTotal: ~/SIMBA/databases/viral_refseq_nuc/viralRefseqNuc
+micoDB: ~/SIMBA/databases/microbeDB/micoDB
+bactRefseqSlim_nuc: ~/SIMBA/databases/bacterialRefseq_slim_nuc/bacterialRefseq_slim_nuc
+fungalRefseqSlim_nuc: ~/SIMBA/databases/fungalRefseqSlim_nuc/bacterialRefseq_slim_nuc
+gtf: ~/SIMBA/databases/human_release34/hg38.ERCC.gtf
+stardir: ~/SIMBA/databases/human_release34/starIndexWithERCC/
+cname: ~/SIMBA/databases/human_release34/chrName.txt
 
-mainEnv_yaml: /oak/stanford/groups/quake/gita/raw/env/mainEnv.yaml
 
-#ntDatabaseDir contains nucleotide sequences (all from NCBI) downloaded in Nov 2020
-ntDatabaseDir: /oak/stanford/groups/quake/gita/raw/database/nt_Nov02_2020/nt
-
-#the virus refseq database (all viruses) nucleotide version
-nucVirTotal: /oak/stanford/groups/quake/gita/raw/database/viral_nr_march25_2020/viral_refseq_nuc/viralRefseqNuc
-
-#this is microbeDB
-micoDB: /oak/stanford/groups/quake/gita/raw/database/micoDB_Feb2021_bactANDfungal/micoDB
-
-#bacterial refseq (slim) (nucleotide with nuc extention, and protein with prot extension) it contains only one randomly selected strain per species (>4000 genomes)
-bactRefseqSlim_nuc: /oak/stanford/groups/quake/gita/raw/database/bactRepSeqs_Dec2020/bacterialRefseq_unique_jan2021/bacterialRefseq_slim_nuc
-
-#fungal refseq (slim) nucl and prot, contains only one representative strain per species (~2600 species, as opposed to the original 7500+)- obtained Jan 2021
-fungalRefseqSlim_nuc: /oak/stanford/groups/quake/gita/raw/database/fungalDB/mycoDB/fungalRefseqSlim_nuc
