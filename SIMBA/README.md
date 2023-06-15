@@ -53,4 +53,15 @@ If the directory is locked, simply run:
 ```
 bash simba_viral.sh unlock
 ```
-The various rules of snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared in this folder. Additionally, the rules rely on  [**UMI-tools** (v1.0.1)](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html) to filter and extract cell barcodes and UMIs from raw fastqs using the extract and whitelist commands. [**STAR** (v2.7)](https://github.com/alexdobin/STAR) is also needed to align resulting sequences against a reference library containing the human genome (GRCh38.p13) and ERCCs. Finally, [**BLAST** (v2.10)](https://www.ncbi.nlm.nih.gov/books/NBK569861/) should also be installed. 
+The various rules of Snakemake will call on three in-house python scripts which are included in the **pyScripts** directory. A few of these rules will require the **mainEnv.yaml** to create the right virtual environment, which is also shared in this folder. Additionally, the rules rely on  [**UMI-tools** (v1.0.1)](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html) to filter and extract cell barcodes and UMIs from raw fastqs using the extract and whitelist commands. [**STAR** (v2.7)](https://github.com/alexdobin/STAR) is also needed to align resulting sequences against a reference library containing the human genome (GRCh38.p13) and ERCCs. Finally, [**BLAST** (v2.10)](https://www.ncbi.nlm.nih.gov/books/NBK569861/) should also be installed. 
+
+Additionally the rules will use the config file to find paths to various databases to BLASTn sequences against. Those databases are the following:
+- **`nucVirTot`** (the viral RefSeq database used in this study)
+- **`micoDB`** (what is referred to as microbeDB in this study and contains fungal and bacterial representatives). 
+- **`bactRefseqSlim_nuc`** (the reduced version of the bacterial RefSeq database used in this study as an intermediate database)
+- **`fungalRefseqSlim_nuc`** (the reduced version of the fungal RefSeq database used in this study as an intermediate database)
+- **`ntDatabaseDir`** (the nt database used in this study)
+
+Because these databases are too large to upload to Github, we are hosting them on [google drive](https://drive.google.com/drive/u/1/folders/1s4lG2Yq7qXH-iJhCHkvh5BvoADvCeubn). After downloading them, make sure to change file paths in the **`config.yaml`**. Additionally, keep in mind that the path should have an additional term. For instance, if you want to reference the nucVirTot database and PATH is where the directory is located, your actual path needs to be PATH/viralRefseqNuc. The second term (viralRefseqNuc) is the name of the files in each database without any of the extensions (e.g. ntf, nin, nhr). This is a feature of BLAST and how it identifies databases, which can be confusing at first. 
+
+In addition to these databases, 
