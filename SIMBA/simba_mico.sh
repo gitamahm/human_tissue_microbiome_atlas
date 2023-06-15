@@ -8,11 +8,9 @@
 #SBATCH --mail-user=gita@stanford.edu
 #SBATCH -p quake
 
-MY_HOME=/oak/stanford/groups/quake/gita/raw
-MY_HOME2=/oak/stanford/groups/quake/gita/raw/tab3-14_20210420/tab10
-SNAKEFILE=$MY_HOME2/simba_mico.snakefile
-CONFIGFILE=$MY_HOME/config.yaml
-SLURM=$MY_HOME2/slurm/
+SNAKEFILE=/SIMBA/simba_mico.snakefile
+CONFIGFILE=/SIMBA/config.yaml
+SLURM=/SIMBA/slurm/
 DATE=$(date "+%Y_%m_%d_%H_%M_%S")
 NJOBS=300
 WAIT=120
