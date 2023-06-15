@@ -1,13 +1,10 @@
 import glob
 from collections import defaultdict
 shell.prefix("set +euo pipefail;")
-REFDIR = "/oak/stanford/groups/quake/gita/raw/tab3-14_20210420/tab10"
-READSDIR = REFDIR + "/raw_reads"
-SCRIPTSDIR = "/oak/stanford/groups/quake/gita/raw/pyScripts"
-STARREFDIR="/oak/stanford/groups/quake/gita/raw/database/STARgenome/human_release34/starIndexWithERCC/"
+REFDIR = config['REFDIR']
+READSDIR = config['READSDIR']
+SCRIPTSDIR = config['SCRIPTSDIR']
 STAR = "STAR"
-CHRNAME = STARREFDIR + "chrName.txt"
-GTFFILE = "/oak/stanford/groups/quake/gita/raw/database/STARgenome/human_release34/hg38.ERCC.gtf"
 SAMPLE, = glob_wildcards(READSDIR + "/{sample}_R1_001.fastq.gz")
 
 rule all:
@@ -55,14 +52,14 @@ rule umi_filter:
 #this rule uses the STAR aligner to identify reads that DO NOT map to the human genome or ERCCs 
 rule align:
      #this line is different from smartseq version of the pipeline
-     input: CHRNAME, R1=REFDIR + "/umiFiltered/{sample}_extracted_R2.fastq.gz",starref=STARREFDIR,gtf=GTFFILE
+     input: CHRNAME=config['cname'], R1=REFDIR + "/umiFiltered/{sample}_extracted_R2.fastq.gz",stardir=config['stardir'],gtf=config['gtf']
      output: REFDIR + "/mapped/{sample}.Aligned.sortedByCoord.out.bam", REFDIR +"/mapped/{sample}.Aligned.out.bam",REFDIR + "/mapped/{sample}.Unmapped.out.mate1"
      threads: 8
      params: name="align", mem="32000", dir="mapped/{sample}", partition="normal,quake,owners",time='03:00:00'
      benchmark:REFDIR + "/benchmarks/align/{sample}.benchmark.txt"
      shell:
        """
-       {STAR}  --genomeDir {input.starref} \
+       {STAR}  --genomeDir {input.stardir} \
                --outFileNamePrefix {params.dir}. \
                --readFilesIn {input.R1}\
                --runThreadN 8 \
