@@ -1,8 +1,8 @@
 import glob
 from collections import defaultdict
 shell.prefix("set +euo pipefail;")
-REFDIR = "/oak/stanford/groups/quake/gita/raw/tab3-14_20210420/tab10"
-SCRIPTSDIR = "/oak/stanford/groups/quake/gita/raw/pyScripts"
+REFDIR = config['REFDIR']
+SCRIPTSDIR = config['SCRIPTSDIR']
 #this format is 10x
 SAMPLE, = glob_wildcards(REFDIR + "/polyFiltered/{sample}.fasta")
 
