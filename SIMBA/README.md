@@ -51,4 +51,7 @@ Finally, the rules will use the config file to find paths to various databases t
 - **`fungalRefseqSlim_nuc`** (the reduced version of the fungal RefSeq database used in this study as an intermediate database)
 - **`ntDatabaseDir`** (the nt database used in this study)
 - **`human_release34`** (needed for STAR alignments to the human genome and ERCCs)
+
 Because these databases are too large to upload to Github, we are hosting them on [google drive](https://drive.google.com/drive/u/1/folders/1s4lG2Yq7qXH-iJhCHkvh5BvoADvCeubn). After downloading them, move them to the SIMBA directory. In addition to these databases, the unprocessed fastq reads from 10X sequencing (format: {sample}_R1_001.fastq.gz"), placed in the **`raw_reads`** directory. 
+
+In addition to these databases, we have provided example input (**`raw_reads`**) and output files in [google drive](https://drive.google.com/drive/u/1/folders/1s4lG2Yq7qXH-iJhCHkvh5BvoADvCeubn) for both viral and bacterial branches of the pipeline.
